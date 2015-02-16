@@ -1,0 +1,1 @@
+C:\Users\SR\Desktop\CTG_V1\app/views/orders/index.blade.php
