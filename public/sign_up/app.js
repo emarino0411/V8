@@ -83,3 +83,60 @@ app.controller('formController', function($scope) {
     };
     
 });
+
+app.directive('phoneNumber', ['$filter', function ($filter) {
+    return {
+        require: '?ngModel',
+        link: function (scope, elem, attrs, ctrl) {
+            if (!ctrl) return;
+
+            var symbol = ""; // dummy usage
+
+            ctrl.$formatters.unshift(function (a) {
+                return $filter(attrs.format)(ctrl.$modelValue) +  symbol;
+            });
+
+            ctrl.$parsers.unshift(function (viewValue) {
+
+               var value = viewValue.trim().replace(/[^0-9]/, '');
+
+                if (value.match(/[^0-9]/)) {
+                    return value;
+                }
+                var country, city, number;
+
+                switch (value.length) {
+                    case 10: // +1PPP####### -> C (PPP) ###-####
+                        country = 1;
+                        city = value.slice(0, 3);
+                        number = value.slice(3);
+                        break;
+
+                    case 11: // +CPPP####### -> CCC (PP) ###-####
+                        country = value[0];
+                        city = value.slice(1, 4);
+                        number = value.slice(4);
+                        break;
+
+                    case 12: // +CCCPP####### -> CCC (PP) ###-####
+                        country = value.slice(0, 3);
+                        city = value.slice(3, 5);
+                        number = value.slice(5);
+                        break;
+
+                    default:
+                        return tel;
+                }
+
+                if (country == 1) {
+                    country = "";
+                }
+
+                number = number.slice(0, 3) + '-' + number.slice(3);
+
+                return (country + " (" + city + ") " + number).trim();
+            });
+        }
+    };
+}]);
+

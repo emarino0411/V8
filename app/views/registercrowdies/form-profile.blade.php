@@ -1,18 +1,27 @@
 <div class="form-group">
 	<div class="form-group sidebyside">
 	    <label for="firstname">First Name</label>
-	    <input type="text" class="form-control" name="firstname" ng-model="formData.firstname" ng-required="true" ng-Minlength="<?php echo MIN_FIRST_NAME;?>" ng-pattern="<?php echo NAME_PATTERN;?>" placeholder="First Name">
-		<p ng-show="crowdieForm.name.$invalid && !crowdieForm.name.$pristine" class="help-block">Your name is required.</p>
+	    <input type="text" class="form-control" name="firstname" ng-model="formData.firstname" ng-minlength="<?php echo MIN_FIRST_NAME;?>" required  ng-pattern="<?php echo NAME_PATTERN;?>" placeholder="First Name">
+		<span style="color:red" ng-show="crowdieForm.firstname.$dirty && crowdieForm.firstname.$invalid">
+		<span ng-show="crowdieForm.firstname.$error.minlength">Firstname should be <?php echo MIN_FIRST_NAME;?>.</span>
+		<span ng-show="crowdieForm.firstname.$error.required">Firstname is required.</span>
+		<span ng-show="crowdieForm.firstname.$error.pattern">Invalid characters found in firstname.</span>
+		<span>&nbsp;</span>
 	</div>
 
 	<div class="form-group sidebyside">
 	    <label for="lastname">Last Name</label>
-	    <input type="text" class="form-control" name="lastname" ng-model="formData.lastname" ng-required="true" ng-Minlength="<?php echo MIN_LAST_NAME;?>" ng-pattern="<?php echo NAME_PATTERN;?>" placeholder="Last Name">
+	    <input type="text" class="form-control" name="lastname" ng-model="formData.lastname" ng-Minlength="<?php echo MIN_LAST_NAME;?>" required ng-pattern="<?php echo NAME_PATTERN;?>" placeholder="Last Name">
+		<span style="color:red" ng-show="crowdieForm.lastname.$dirty && crowdieForm.lastname.$invalid">
+		<span ng-show="crowdieForm.lastname.$error.minlength">Last name should be <?php echo MIN_FIRST_NAME;?>.</span>
+		<span ng-show="crowdieForm.lastname.$error.required">Last name is required.</span>
+		<span ng-show="crowdieForm.lastname.$error.pattern">Invalid characters found in lastname.</span>
+	    <span>&nbsp;</span>
 	</div>
 </div>
 <div class="form-group">
     <label for="mobileno">Mobile No</label>
-    <input type="text" class="form-control" name="mobileno" ng-model="formData.mobileno" placeholder="Mobile No">
+    <input type="text" class="form-control" name="mobileno" ng-model="formData.mobileno" placeholder="Mobile No" phone-number>
 </div>
 
 <div class="form-group">
