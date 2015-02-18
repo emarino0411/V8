@@ -10,7 +10,7 @@
 
 	<link href="admin_template/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 	<link href="admin_template/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css" />
-
+	
 	<link href="admin_template/css/font-awesome.css" rel="stylesheet">
 	<link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
 
@@ -32,11 +32,12 @@
 	<div class="container">
 		@yield('body_content')
 	</div>
-
+<!-- Admin jquery / js  -->
 <script src="admin_template/js/jquery-1.7.2.min.js"></script>
 <script src="admin_template/js/bootstrap.js"></script>
-<script src="admin_template/js/signin.js"></script>
 
+
+@yield('footer_js')
 
 </body>
 

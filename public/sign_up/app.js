@@ -1,7 +1,10 @@
 
 // create our angular app and inject ngAnimate and ui-router 
 // =============================================================================
-var app = angular.module('formApp', ['ngAnimate', 'ui.router']);
+var app = angular.module('formApp', ['ngAnimate', 
+                                     'ui.router',
+                                     'ui.utils',
+                                     'ui.bootstrap']);
 
 // configuring our routes 
 // =============================================================================
@@ -65,7 +68,6 @@ app.controller('formController', function($scope) {
     
     /* Function for each page validation */
     $scope.validateProfile = function( isValid ){
-        alert(isValid);
          if (isValid) {
             alert('awesome!');  
         }else{
@@ -84,59 +86,31 @@ app.controller('formController', function($scope) {
     
 });
 
-app.directive('phoneNumber', ['$filter', function ($filter) {
-    return {
-        require: '?ngModel',
-        link: function (scope, elem, attrs, ctrl) {
-            if (!ctrl) return;
-
-            var symbol = ""; // dummy usage
-
-            ctrl.$formatters.unshift(function (a) {
-                return $filter(attrs.format)(ctrl.$modelValue) +  symbol;
-            });
-
-            ctrl.$parsers.unshift(function (viewValue) {
-
-               var value = viewValue.trim().replace(/[^0-9]/, '');
-
-                if (value.match(/[^0-9]/)) {
-                    return value;
-                }
-                var country, city, number;
-
-                switch (value.length) {
-                    case 10: // +1PPP####### -> C (PPP) ###-####
-                        country = 1;
-                        city = value.slice(0, 3);
-                        number = value.slice(3);
-                        break;
-
-                    case 11: // +CPPP####### -> CCC (PP) ###-####
-                        country = value[0];
-                        city = value.slice(1, 4);
-                        number = value.slice(4);
-                        break;
-
-                    case 12: // +CCCPP####### -> CCC (PP) ###-####
-                        country = value.slice(0, 3);
-                        city = value.slice(3, 5);
-                        number = value.slice(5);
-                        break;
-
-                    default:
-                        return tel;
-                }
-
-                if (country == 1) {
-                    country = "";
-                }
-
-                number = number.slice(0, 3) + '-' + number.slice(3);
-
-                return (country + " (" + city + ") " + number).trim();
-            });
-        }
+app.controller('BirthDate', function ($scope) {
+    /*Set the current value to today*/
+    $scope.toggleMin = function() {       
+        $scope.maxDate  = new Date($scope.minimumBirthYear);
+        $scope.initDate = new Date($scope.minimumBirthYear);
+        $scope.formData.birthdate = new Date($scope.minimumBirthYear);
+    };    
+    /* Display the datepicker dialog box*/
+    $scope.open = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation(); 
+        $scope.toggleMin();
+        $scope.opened = true;
     };
-}]);
+    /* Check if the age is > 18 */
+    $scope.checkDate = function(){
+        var currentDate = new Date($scope.formData.birthdate);
+        if( currentDate > $scope.maxDate ){
+            $scope.toggleMin();
+            $scope.crowdieForm.birthdate.$setValidity('required', true);
+            alert();
+        }else{
+            $scope.crowdieForm.birthdate.$setValidity('required', false);
+            alert();
+        }
+    }
+});
 

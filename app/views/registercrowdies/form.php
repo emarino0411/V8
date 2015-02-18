@@ -18,7 +18,7 @@
             </div>
             
             <!-- use ng-submit to catch the form submission and use our Angular function -->
-            <form id="signup-form" ng-submit="processForm()" name="crowdieForm">
+            <form id="signup-form" ng-controller="formController" ng-submit="processForm()" name="crowdieForm">
                 <!-- our nested state views will be injected here -->
                 <div id="form-views" ui-view></div>
             </form>

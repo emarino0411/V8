@@ -2,3 +2,11 @@
 	width:30%;
 	margin-top:-1.5%;
 }
+.error, .help-inline {
+  border-color: #B94A48;
+  color: #B94A48;
+}
+/* really specific css rules applied by angular */
+.ng-invalid-required        { border-color: #B94A48; color: #B94A48; }
+.ng-invalid-minlength       { border-color: #B94A48; color: #B94A48; }
+.ng-valid-max-length        { border-color: #B94A48; color: #B94A48; }
