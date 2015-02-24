@@ -16,6 +16,7 @@
 	define('MIN_LAST_NAME',2);
 	define('MAX_LAST_NAME',40);
 	define('MAX_BIRTH_DATE',date('m-d').'-'.(date('Y')-18));
+	define('MIN_PASSWORD',6);
 
     /*
 	* System RegExp Pattern

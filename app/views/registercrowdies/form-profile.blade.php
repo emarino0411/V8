@@ -131,6 +131,7 @@
 				init-date        = "initDate"
 				ng-required      = "true"
 				ng-click         = "open($event)"
+				ng-keyup         = "open($event)"
 				ng-blur          = "checkDate()"/>
 
 		<span class="input-group-btn">
@@ -155,23 +156,68 @@
 </div>
 
 <!-- Email -->
-<div class="form-group">
+<div class="form-group"
+	ng-class="{ 'has-error' : crowdieForm.email.$invalid &&
+	                          !crowdieForm.email.$pristine }">
     <label for="email">Email</label>
-    <input type="text" class="form-control" name="email" ng-model="formData.emails"  placeholder="Email" ng-blur="validateEmail()">
-	<span ng-show="crowdieForm.email.$error.emails" class="has-error">Invalid email</span>
+    <input type        = "email" 
+    		class      = "form-control" 
+    		name       = "email" 
+    		ng-model   = "formData.emails" 
+    		placeholder= "Email" 
+    		ng-model   = "email"
+    		ng-required= "true">
+
+		<span style     = "color:red" 
+				ng-show = "crowdieForm.email.$dirty && 
+						crowdieForm.email.$invalid">
+			<span ng-show = "crowdieForm.email.$error.email">
+				Email format is invalid
+			</span>
+			<span ng-show = "crowdieForm.email.$error.required">
+				Email is required.
+			</span>
+		</span>
 </div>
 
 <div class="form-group">
 	<!-- Password1 -->	
 	<div class="sidebyside">
 		<label for="password">Password</label>
-		<input type="password" class="form-control" name="password1" ng-model="formData.password1"  placeholder="Password">
+		<input type     = "password"
+				class   = "form-control" 
+				name    = "password" 
+				ng-model= "formData.password"  
+				placeholder = "Password"
+				ng-required = "true">
 	</div>
 	<!-- Password2 -->
 	<div class="sidebyside">
-		<label for="password">Repeat Password</label>
-		<input type="password" class="form-control" name="password2" ng-model="formData.password2"  placeholder="Repeat Password">
+		<label for="password">Confirm Password</label>
+		<input type="password" 
+				class             = "form-control" 
+				name              = "confirm_password" 
+				ng-model          = "formData.confirm_password"  
+				placeholder       = "Repeat confirm_password"
+				ui-validate       =" '$value==formData.password' "
+				ui-validate-watch = " 'password' "
+				ng-required       = "true"
+				ng-minlength      = <?php echo MIN_PASSWORD; ?>>
 	</div>
+	<span style="color:red" 
+			ng-show="crowdieForm.confirm_password.$dirty && 
+					crowdieForm.confirm_password.$invalid">
+		<span ng-show="crowdieForm.confirm_password.$error.validator">
+			Password does not match
+		</span>
+		<span ng-show="crowdieForm.confirm_password.$error.required">
+			Password is required
+		</span>
+		<span ng-show="crowdieForm.confirm_password.$error.minlength">
+			Password should be <?php echo MIN_PASSWORD; ?> minimum characters
+		</span>
+		
+	</span>
 </div>
 <!-- Next Button, should be disabled if there are errors in the validations on the form -->
 <div class="form-group row">
