@@ -1,12 +1,67 @@
 <div class="form-group">
 	<div class="form-group sidebyside">
 	    <label for="street">Street</label>
-	    <input type="text" class="form-control" name="street" ng-model="formData.street" ng-required="true" ng-Minlength="<?php echo MIN_FIRST_NAME;?>" ng-pattern="<?php echo NAME_PATTERN;?>" placeholder="Your Street">
+	    <input type="text" 
+	           class="form-control" 
+	           name="street" 
+	           ng-model="formData.street" 
+	           ng-required="true" 
+	           ng-minlength="<?php echo MIN_STREET;?>" 
+	           ng-maxlength="<?php echo MAX_STREET;?>" 
+	           ng-pattern="<?php echo STREET_PATTERN;?>" 
+	           placeholder="Your Street">
+
+	    <!-- ERROR Messages for Street -->
+		<span style="color:red" 
+			ng-show="crowdieForm.street.$dirty && 
+			         crowdieForm.street.$invalid">
+
+			<span ng-show="crowdieForm.street.$error.minlength">
+				Street should be at least <?php echo MIN_FIRST_NAME;?> characters.
+			</span>
+			<span ng-show="crowdieForm.street.$error.maxlength">
+				Street should limit is <?php echo MAX_FIRST_NAME;?> characters .
+			</span>
+			<span ng-show="crowdieForm.street.$error.required">
+				Street is required.
+			</span>
+			<span ng-show="crowdieForm.street.$error.pattern">
+				Invalid characters found in Street.
+			</span>	
+		</span>
+		<!-- Para hindi mag adjust ung label ng mobile add span padding -->
+		<span ng-show="crowdieForm.lineaddress2.$dirty && 
+					   crowdieForm.lineaddress2.$invalid">
+			<?php echo NBSP; ?>
+		</span>
 	</div>
 
 	<div class="form-group sidebyside">
 	    <label for="lineaddress2">Line Address 2</label>
-	    <input type="text" class="form-control" name="lineaddress2" ng-model="formData.lineaddress2" ng-required="true" ng-Minlength="<?php echo MIN_LAST_NAME;?>" ng-pattern="<?php echo NAME_PATTERN;?>" placeholder="Your Apartment no or Line Address 2">
+	    <input type     = "text" 
+	           class    = "form-control" 
+	           name     = "lineaddress2" 
+	           ng-model = "formData.lineaddress2" 
+	           ng-maxlength = "<?php echo MAX_STREET;?>" 
+	           ng-pattern   = "<?php echo STREET_PATTERN;?>" 
+	           placeholder  = "Your Apartment no or Line Address 2">
+	    <!-- ERROR Messages for Street -->
+		<span style="color:red" 
+			ng-show="crowdieForm.lineaddress2.$dirty && 
+			         crowdieForm.lineaddress2.$invalid">
+
+			<span ng-show="crowdieForm.lineaddress2.$error.maxlength">
+				Line Address 2 limit is <?php echo MAX_FIRST_NAME;?> characters .
+			</span>
+			<span ng-show="crowdieForm.lineaddress2.$error.pattern">
+				Invalid characters found in Line Address 2.
+			</span>	
+		</span>
+		<!-- Para hindi mag adjust ung label ng mobile add span padding -->
+		<span ng-show="crowdieForm.street.$dirty && 
+					   crowdieForm.street.$invalid">
+			<?php echo NBSP; ?>
+		</span>
 	</div>
 </div>
 <div class="form-group">
@@ -30,9 +85,13 @@
 </div>
 
 <div class="form-group row">
+	
 	<div class="col-xs-6 col-xs-offset-3">
 		<br><br>
-	    <a ui-sref="form.photo-id" class="btn btn-block btn-info" ng-click="validateProfile($event)">
+		<a ui-sref="form.photo-id" class="btn btn-inline btn-warning">
+	    	<span class="glyphicon glyphicon-circle-arrow-left"></span>Previous Section
+	    </a>
+	    <a ui-sref="form.photo-id" class="btn btn-inline btn-info">
 	    	Next Section <span class="glyphicon glyphicon-circle-arrow-right"></span>
 	    </a>
 	</div>

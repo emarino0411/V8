@@ -17,8 +17,7 @@
 		    	ng-pattern   = "<?php echo NAME_PATTERN;?>" 
 		    	placeholder  = "First Name"/>
 
-	    <!-- ERROR Messages for First Name -->
-	    
+	    <!-- ERROR Messages for First Name -->    
 
 		<span style="color:red" 
 			ng-show="crowdieForm.firstname.$dirty && 
@@ -189,7 +188,10 @@
 				name    = "password" 
 				ng-model= "formData.password"  
 				placeholder = "Password"
-				ng-required = "true">
+				ui-validate =" '$value==formData.confirm_password' "
+				ui-validate-watch = " 'confirm_password' "
+				ng-required = "true"
+				ng-minlength      = <?php echo MIN_PASSWORD; ?>>
 	</div>
 	<!-- Password2 -->
 	<div class="sidebyside">
@@ -205,25 +207,34 @@
 				ng-minlength      = <?php echo MIN_PASSWORD; ?>>
 	</div>
 	<span style="color:red" 
-			ng-show="crowdieForm.confirm_password.$dirty && 
-					crowdieForm.confirm_password.$invalid">
-		<span ng-show="crowdieForm.confirm_password.$error.validator">
+			ng-show="(crowdieForm.confirm_password.$dirty && 
+					crowdieForm.confirm_password.$invalid)||
+					(crowdieForm.password.$dirty && 
+					crowdieForm.password.$invalid)">
+		<span ng-show="crowdieForm.confirm_password.$error.validator ||
+		               crowdieForm.password.$error.validator">
 			Password does not match
 		</span>
-		<span ng-show="crowdieForm.confirm_password.$error.required">
+		<span ng-show="crowdieForm.confirm_password.$error.required||
+		               crowdieForm.password.$error.required">
 			Password is required
 		</span>
-		<span ng-show="crowdieForm.confirm_password.$error.minlength">
+		<span ng-show="crowdieForm.confirm_password.$error.minlength||
+		               crowdieForm.password.$error.minlength">
 			Password should be <?php echo MIN_PASSWORD; ?> minimum characters
-		</span>
-		
+		</span>		
 	</span>
 </div>
 <!-- Next Button, should be disabled if there are errors in the validations on the form -->
 <div class="form-group row">
 	<div class="col-xs-6 col-xs-offset-3">
 		<br><br>
-	    <a ui-sref="form.home-address" class="btn btn-block btn-info" ng-click="validateProfile()">
+	    <a ui-sref="form.home-address" 
+	       class="btn btn-block btn-info" 
+	       ng-disabled="crowdieForm.$invalid ||
+                     	crowdieForm.$pristine"
+	       ng-class="{ 'has-error' : crowdieForm.$invalid &&
+	                                 !crowdieForm.$dirty }">
 	    	Next Section <span class="glyphicon glyphicon-circle-arrow-right"></span>
 	    </a>
 	</div>
